@@ -1,0 +1,94 @@
+createdAt: "2018-07-08T08:35:37.945Z"
+updatedAt: "2018-07-08T10:45:51.981Z"
+type: "MARKDOWN_NOTE"
+folder: "b4bf337c6c500d896748"
+title: "装饰器"
+content: '''
+  # 装饰器
+  > 参考 [ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/decorator)
+  
+  装饰器可以装饰类和类的方法。
+  
+  >个人观点：装饰器类似于一个高阶函数，作用于类或者类方法，为它们添加属性或者修改行为。
+  
+  ## 类装饰
+  装饰类时，是为类添加本身添加属性。
+  ```js
+  function testable(isTestable) {
+    return function(target) {
+      target.isTestable = isTestable;
+    }
+  }
+  
+  @testable(true)
+  class MyTestableClass {}
+  MyTestableClass.isTestable // true
+  
+  @testable(false)
+  class MyClass {}
+  MyClass.isTestable // false
+  ```
+  ## 方法装饰
+  装饰方法时，是修改类的原型上方法的行为。
+  ```js
+  class Person {
+    @readonly
+    name() { return `${this.first} ${this.last}` }
+  }
+  function readonly(target, name, descriptor){
+    // descriptor对象原来的值如下
+    // {
+    //   value: specifiedFunction,
+    //   enumerable: false,
+    //   configurable: true,
+    //   writable: true
+    // };
+    descriptor.writable = false;
+    return descriptor;
+  }
+  
+  readonly(Person.prototype, 'name', descriptor);
+  
+  // 类似于
+  Object.defineProperty(Person.prototype, 'name', descriptor);
+  class Math {
+    @log
+    add(a, b) {
+      return a + b;
+    }
+  }
+  
+  function log(target, name, descriptor) {
+    var oldValue = descriptor.value;
+  
+    descriptor.value = function() {
+      console.log(`Calling ${name} with`, arguments);
+      return oldValue.apply(this, arguments);
+    };
+  
+    return descriptor;
+  }
+  
+  const math = new Math();
+  
+  // passed parameters should get logged now
+  math.add(2, 4);
+  
+  ```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  ```
+'''
+tags: [
+  "JavaScript"
+  "装饰器"
+]
+isStarred: false
+isTrashed: false

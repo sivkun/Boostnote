@@ -1,0 +1,23 @@
+createdAt: "2018-07-08T11:49:13.711Z"
+updatedAt: "2018-07-08T11:51:46.538Z"
+type: "MARKDOWN_NOTE"
+folder: "b4bf337c6c500d896748"
+title: "create-react-app typescript"
+content: '''
+  # create-react-app typescript
+  
+  ```bash
+  create-react-app my-app --scripts-version=react-scripts-ts
+  cd my-app/
+  npm start
+  ```
+  
+'''
+tags: [
+  "react"
+  "typescript"
+  "create-react-app"
+  "开发环境"
+]
+isStarred: false
+isTrashed: false

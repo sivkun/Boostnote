@@ -1,0 +1,115 @@
+createdAt: "2018-07-13T01:40:53.920Z"
+updatedAt: "2018-07-13T01:45:37.210Z"
+type: "MARKDOWN_NOTE"
+folder: "baaec5048cb0144c6e19"
+title: "七牛文件批量上传"
+content: '''
+  # 七牛文件批量上传
+  > 主要用作学习
+  ```sh
+  # #!/bin/bash
+  # 本地文件同步到七牛
+  # -f filename 上传单个文件
+  # -d dir 上传文件夹
+  # -j 配置文件json
+  echo "-f filename 上传单个文件"
+  echo "-d dir 上传文件夹"
+  echo "-j json格式配置文件位置"
+  echo
+  dir=
+  file=
+  config="upload.json"
+  
+  while getopts :d:f:j: opt
+  do
+      case "$opt" in
+      d) dir=$OPTARG  ;;
+      f) file=$OPTARG;;
+      j) config=$OPTARG  ;;
+      *) echo "Unknown option: $opt" ;;
+      esac
+  done
+  echo $config
+  echo $dir
+  
+   `rm  .$config`
+  key_prefix=`date "+%Y-%m-%d"`
+  echo $config
+  command awk -F: -v dir=$dir -v file=$file -v config=".$config" -v key_prefix=$key_prefix\\
+   '{ 
+      sub(/^[[:blank:]]+/,"",$1);
+      sub(/[[:blank:]]+$/,"",$1);
+      if($1=="\\"src_dir\\""){
+          sub(/[[:blank:]]*"[[:blank:]]*,[[:blank:]]*$/,"/" dir,$2);
+          $2 = $2 "\\","
+          print $1 ":" $2 >> config
+      }else if($1=="\\"key_prefix\\""&&0){
+          sub(/[[:blank:]]*"[[:blank:]]*,[[:blank:]]*$/,key_prefix,$2);
+          $2 = $2 "\\","
+          print $1 ":" $2 >> config
+      }else if( $1 != "{" && $1 != "}"){
+          print $1 ":" $2 >> config
+      }else if( $1 == "{" || $1 == "}"){
+          print $1 >> config
+      }
+  }' \\
+  $config
+  command qshell qupload .$config
+  
+  
+  # OPTIND环境变量保存了参数列表中getopts正在处理的参数位置。
+  # 这样你就能在处 理完选项之后继续处理其他命令行参数了。
+  # getopts处理完选项参数后，会将$OPTIND的值加1。
+  # shift移除命令行参数， shift num 移除多个命令行参数
+  # shift $[ $OPTIND - 1 ] 
+  #
+  # echo
+  # count=1
+  # for param in "$@"
+  # do
+  #     echo "Parameter $count: $param"
+  #     count=$[ $count + 1 ]
+  # done
+  
+  
+  ###+++++++++++++++++++++++++++++++++++++++++++++++++++++###
+  # set -- $(getopt -q f:d:j: "$@")
+  # echo
+  # while [ -n "$1" ]
+  # do
+  #     case "$1" in
+  #        -f) isFile=true
+  #            file="$2"
+  #            shift;;
+  #        -d) dir="$2"
+  #            shift ;;
+  #        -j) json="$2"
+  #            shift;;
+  #        --) shift
+  #            break ;;
+  #         *) echo "$1 is not an option";;
+  #     esac
+  #     shift
+  # done
+  #     #
+  # count=1
+  # for param in "$@"
+  # do
+  #      echo "Parameter #$count: $param"
+  #     count=$[ $count + 1 ]
+  # done
+  # #
+  
+  
+  
+  ```
+  
+'''
+tags: [
+  "awk"
+  "command"
+  "getopts"
+  "命令行参数"
+]
+isStarred: false
+isTrashed: false

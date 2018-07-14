@@ -1,0 +1,376 @@
+createdAt: "2018-07-10T01:55:16.059Z"
+updatedAt: "2018-07-10T06:55:39.630Z"
+type: "MARKDOWN_NOTE"
+folder: "8ffd700bc65008b8af40"
+title: "mobx 概述"
+content: '''
+  # mobx 概述
+  ![flow.png](http://pbmogtn5t.bkt.clouddn.com/flow.png)
+  
+  React 和 MobX 是一对强力组合。React 通过提供机制把应用状态转换为可渲染组件树并对其进行渲染。而MobX提供机制来存储和更新应用状态供 React 使用。
+  
+  对于应用开发中的常见问题，React 和 MobX都提供了最优和独特的解决方案。React 提供了优化UI渲染的机制， 这种机制就是通过使用虚拟DOM来减少昂贵的DOM变化的数量。MobX 提供了优化应用状态与 React 组件同步的机制，这种机制就是使用响应式虚拟依赖状态图表，它只有在真正需要的时候才更新并且永远保持是最新的。
+  
+  # observable
+  
+  observable state 可观察的状态。当observable state被改变时，会触发监听了该状态的事件。其中包括computed values（计算值）和Reactions（反应）。
+  ***MobX 会对在执行跟踪函数期间读取的任何现有的可观察属性做出反应。***
+  
+  ```js
+  import { observable } from "mobx";
+  
+  class Todo {
+      id = Math.random();
+      @observable title = "";
+      @observable finished = false;
+  }
+  ```
+  # Computed values(计算值)
+  使用 MobX， 你可以定义在相关数据发生变化时自动更新的值。 通过`@computed `装饰器或者利用 `(extend)Observable` 时调用 `的getter / setter` 函数来进行使用。
+  ```js
+  class TodoList {
+      @observable todos = [];
+      @computed get unfinishedTodoCount() {
+          return this.todos.filter(todo => !todo.finished).length;
+      }
+  }
+  
+  ```
+  # Reactions(反应)
+  Reactions 和计算值很像，但它不是产生一个新的值，而是会产生一些副作用，比如打印到控制台、网络请求、递增地更新 React 组件树以修补DOM、等等。 简而言之，reactions 在 响应式编程和命令式编程之间建立沟通的桥梁。
+  
+  ## 结合React
+  如果你用 React 的话，可以把你的(无状态函数)组件变成响应式组件，方法是在组件上添加 observer 函数/ 装饰器. observer由 mobx-react 包提供的。
+  
+  
+  ```js
+  import React, {Component} from 'react';
+  import ReactDOM from 'react-dom';
+  import {observer} from 'mobx-react';
+  
+  @observer
+  class TodoListView extends Component {
+      render() {
+          return <div>
+              <ul>
+                  {this.props.todoList.todos.map(todo =>
+                      <TodoView todo={todo} key={todo.id} />
+                  )}
+              </ul>
+              Tasks left: {this.props.todoList.unfinishedTodoCount}
+          </div>
+      }
+  }
+  
+  const TodoView = observer(({todo}) =>
+      <li>
+          <input
+              type="checkbox"
+              checked={todo.finished}
+              onClick={() => todo.finished = !todo.finished}
+          />{todo.title}
+      </li>
+  )
+  
+  const store = new TodoList();
+  ReactDOM.render(<TodoListView todoList={store} />, document.getElementById('mount'));             
+  ```
+  ## 自定义Reaction
+  使用`autorun`、`reaction` 和 `when` 函数即可简单的创建自定义 `reactions`，以满足你的具体场景。
+  
+  例如，每当 unfinishedTodoCount 的数量发生变化时，下面的 autorun 会打印日志消息:
+  ```js
+  autorun(() => {
+      console.log("Tasks left: " + todos.unfinishedTodoCount)
+  })
+  ```
+  
+  # 过渡
+  通过以上知识，便可以通过结合mobx进行项目开发。但是mobx不仅限于以上内容，有几点需要明确：
+  1. 最开始结构图中的Action是什么，为什么有Action的概念？
+  2. Mobx会对observable state的哪些改变做出响应？
+  
+  # Action
+  所谓Action其实很简单，在任何应用都会有动作，如UI中的点击动作或者是IO操作的动作。这些动作可能会修改State，在Mobx中只要修改了状态的动作，你都可以使用`@action`进行标记。`@action`可以帮助你更好的组织代码。
+  它接收一个函数并返回具有同样签名的函数，但是用 transaction、untracked 和 allowStateChanges 包裹起来，尤其是 transaction 的自动应用会产生巨大的性能收益， 动作会分批处理变化并只在(最外层的)动作完成后通知计算值和反应。 这将确保在动作完成之前，在动作期间生成的中间值或未完成的值对应用的其余部分是不可见的。
+  > 建议对任何修改 observables 或具有副作用的函数使用 (@)action 。 结合开发者工具的话，动作还能提供非常有用的调试信息。
+  > 可以通过对mobx的配置实现只允许在Action中改变状态。
+  > `mobx.configure({ enforceActions: true }) // 不允许在动作之外进行状态修改`
+  
+  ## 绑定动作
+  `action` 装饰器/函数遵循 javascript 中标准的绑定规则。 但是，`action.bound `可以用来自动地将动作绑定到目标对象。 注意，与 `action `不同的是，`(@)action.bound` 不需要一个name参数，名称将始终基于动作绑定的属性。
+  > `@action.bound`用于将一个方法始终绑定到一个对象。
+  
+  
+  ```js
+  class Ticker {
+      @observable tick = 0
+  
+      @action.bound
+      increment() {
+          this.tick++ // 'this' 永远都是正确的
+      }
+  }
+  
+  const ticker = new Ticker()
+  setInterval(ticker.increment, 1000)
+  ```
+  ## runInAction(name?, thunk)
+  
+  runInAction 是个简单的工具函数，它接收代码块并在(异步的)动作中执行。这对于即时创建和执行动作非常有用，例如在异步过程中。`runInAction(f)` 是 `action(f)()` 的语法糖。
+  ## 异步Action
+  `action` 包装/装饰器只会对当前运行的函数作出反应，而不会对当前运行函数所调用的函数（不包含在当前函数之内）作出反应！ 这意味着如果 `action` 中存在 `setTimeout`、`promise` 的 `then` 或 `async` 语句，并且在回调函数中某些状态改变了，那么这些回调函数也应该包装在 `action` 中。以下是创建异步 `action` 有几种方式。
+  ### Promises
+  **问题代码：**
+  ```js
+  mobx.configure({ enforceActions: true }) // 不允许在动作之外进行状态修改
+  
+  class Store {
+      @observable githubProjects = []
+      @observable state = "pending" // "pending" / "done" / "error"
+  
+      @action
+      fetchProjects() {
+          this.githubProjects = []
+          this.state = "pending"
+          fetchGithubProjectsSomehow().then(
+              projects => {
+                  const filteredProjects = somePreprocessing(projects)
+                  this.githubProjects = filteredProjects
+                  this.state = "done"
+              },
+              error => {
+                  this.state = "error"
+              }
+          )
+      }
+  }
+  
+  ```
+  1. 方法一
+  上面的示例会抛出异常，因为传给 fetchGithubProjectsSomehow promise 的回调函数不是 fetchProjects 动作的一部分，因为动作只会应用于当前栈。
+  首选的简单修复是将回调函数变成动作。(注意使用 action.bound 绑定在这很重要，以获取正确的 this!):
+  ```js
+  mobx.configure({ enforceActions: true })
+  
+  class Store {
+      @observable githubProjects = []
+      @observable state = "pending" // "pending" / "done" / "error"
+  
+      @action
+      fetchProjects() {
+          this.githubProjects = []
+          this.state = "pending"
+          fetchGithubProjectsSomehow().then(this.fetchProjectsSuccess, this.fetchProjectsError)
+  
+      }
+  
+      @action.bound
+      fetchProjectsSuccess(projects) {
+          const filteredProjects = somePreprocessing(projects)
+          this.githubProjects = filteredProjects
+          this.state = "done"
+      }
+      @action.bound
+          fetchProjectsError(error) {
+              this.state = "error"
+          }
+      }
+  
+  ```
+  2. 方法二：
+  尽管这很整洁清楚，但异步流程复杂后可能会略显啰嗦。另外一种方案是你可以使用 `action` 关键字来包装 `promises` 回调函数。推荐这么做，但不是强制的，还需要给它们命名:
+  ```js
+  mobx.configure({ enforceActions: true })
+  
+  class Store {
+      @observable githubProjects = []
+      @observable state = "pending" // "pending" / "done" / "error"
+  
+      @action
+      fetchProjects() {
+          this.githubProjects = []
+          this.state = "pending"
+          fetchGithubProjectsSomehow().then(
+              // 内联创建的动作
+              action("fetchSuccess", projects => {
+                  const filteredProjects = somePreprocessing(projects)
+                  this.githubProjects = filteredProjects
+                  this.state = "done"
+              }),
+              // 内联创建的动作
+              action("fetchError", error => {
+                  this.state = "error"
+              })
+          )
+      }
+  }
+  
+  ```
+  3. 方法三
+  内联动作的缺点是 TypeScript 无法对其进行类型推导，所以你应该为所有的回调函数定义类型。 你还可以只在动作中运行回调函数中状态修改的部分，而不是为整个回调创建一个动作。 这种模式的优势是它鼓励你不要到处写 action，而是在整个过程结束时尽可能多地对所有状态进行修改：
+  
+  ```js
+  mobx.configure({ enforceActions: true })
+  
+  class Store {
+      @observable githubProjects = []
+      @observable state = "pending" // "pending" / "done" / "error"
+  
+      @action
+      fetchProjects() {
+          this.githubProjects = []
+          this.state = "pending"
+          fetchGithubProjectsSomehow().then(
+              projects => {
+                  const filteredProjects = somePreprocessing(projects)
+                  // 将‘“最终的”修改放入一个异步动作中
+                  runInAction(() => {
+                      this.githubProjects = filteredProjects
+                      this.state = "done"
+                  })
+              },
+              error => {
+                  // 过程的另一个结局:...
+                  runInAction(() => {
+                      this.state = "error"
+                  })
+              }
+          )
+      }
+  }
+  
+  ```
+  ### async / await
+  基于 `async / await` 的函数当开始使用动作时起初似乎会令人感到困惑。 因为在词法上它们看起来是同步函数，它给人的印象是 `@action` 应用于整个函数。 但事实并非若此，因为 `async / await` 只是围绕基于 `promise` 过程的语法糖。 结果是 `@action` 仅应用于代码块，直到第一个 `await` 。 在每个 `await` 之后，一个新的异步函数将启动，所以在每个 `await` 之后，状态修改代码应该被包装成动作。 这正是 `runInAction` 再次派上用场的地方:
+  ```js
+  mobx.configure({ enforceActions: true })
+  
+  class Store {
+      @observable githubProjects = []
+      @observable state = "pending" // "pending" / "done" / "error"
+  
+      @action
+      async fetchProjects() {
+          this.githubProjects = []
+          this.state = "pending"
+          try {
+              const projects = await fetchGithubProjectsSomehow()
+              const filteredProjects = somePreprocessing(projects)
+              // await 之后，再次修改状态需要动作:
+              runInAction(() => {
+                  this.state = "done"
+                  this.githubProjects = filteredProjects
+              })
+          } catch (error) {
+              runInAction(() => {
+                  this.state = "error"
+              })
+          }
+      }
+  }
+  
+  ```
+  ### flows
+  然而，更好的方式是使用 `flow` 的内置概念。它们使用生成器。一开始可能看起来很不适应，但它的工作原理与 `async / await` 是一样的。只是使用 `function *` 来代替 `async`，使用 `yield` 代替 `await` 。 使用 `flow` 的优点是它在语法上基本与 `async / await` 是相同的 (只是关键字不同)，并且不需要手动用 `@action` 来包装异步代码，这样代码更简洁。
+  
+  `flow` 只能作为函数使用，不能作为装饰器使用。 `flow` 可以很好的与 `MobX` 开发者工具集成，所以很容易追踪 `async` 函数的过程。
+  # Mobx会对observable state的哪些改变做出响应？
+  `MobX` 通常会对你期望的东西做出反应。 这意味着在90％的场景下，`mobx` “都可以工作”。 然而，在某些时候，你会遇到一个情况，它可能不会像你所期望的那样工作。 在这个时候理解 `MobX`如何确定对什么有反应就显得尤为重要。
+  
+  > `MobX` 会对在追踪函数执行过程中读取现存的可观察属性做出反应。
+  
+  * “读取” 是对象属性的间接引用，可以用过 . (例如 `user.name`) 或者 `[]` (例如 `user['name'])` 的形式完成。
+  * “追踪函数” 是 `computed` 表达式、`observer` 组件的 `render()`方法和 `when`、`reaction` 和 `autorun` 的第一个入参函数。
+  * “过程(during)” 意味着只追踪那些在函数执行时被读取的 `observable` 。这些值是否由追踪函数直接或间接使用并不重要。
+  换句话说，`MobX` 不会对其作出反应:
+  
+  * 从 `observable` 获取的值，但是在追踪函数之外
+  * 在异步调用的代码块中读取的 `observable`
+  
+  ## MobX 追踪属性访问，而不是值
+  
+  ```js
+  let message = observable({
+      title: "Foo",
+      author: {
+          name: "Michel"
+      },
+      likes: [
+          "John", "Sara"
+      ]
+  })
+  
+  ```
+  > 在内存中看起来像下面这样。 绿色框表示可观察属性。 请注意，值 本身是不可观察的！
+  
+  ![observed-refs.png](http://pbmogtn5t.bkt.clouddn.com/observed-refs.png)
+  现在 MobX 基本上所做的是记录你在函数中使用的是哪个箭头。之后，只要这些箭头中的其中一个改变了(它们开始引用别的东西了)，它就会重新运行。
+  
+  # 工具函数
+  1. toJS
+  `toJS(value, options?)`
+  
+  递归地将一个(`observable`)对象转换为 `javascript` 结构。 支持 `observable` 数组、对象、映射和原始类型。 计算值和其他不可枚举的属性不会成为结果的一部分。 默认情况下可以正确支持检测到的循环，但也可以禁用它来获得性能上的提升。
+  ```js
+  var obj = mobx.observable({
+      x: 1
+  });
+  
+  var clone = mobx.toJS(obj);
+  
+  console.log(mobx.isObservableObject(obj)); // true
+  console.log(mobx.isObservableObject(clone)); // false
+  
+  ```
+  2. extendObservable
+  `extendObservable(target, properties, decorators?, options?)`
+  
+  `ExtendObservable` 用来向已存在的目标对象添加 `observable` 属性。 属性映射中的所有键值对都会导致目标上的新的 `observable` 属性被初始化为给定值。 属性映射中的任意 `getters` 都会转化成计算属性。
+  
+  `decorators` 参数用来重载用于指定属性的装饰器，类似于 `decorate` 和 `observable.object` 。
+  
+  使用 `deep: false` 选项可使得新的属性变成浅的。也就是说，阻止它们的值自动转换成 `observables` 。
+  ```js
+  var Person = function(firstName, lastName) {
+      // 在一个新实例上初始化 observable 属性
+      extendObservable(this, {
+          firstName: firstName,
+          lastName: lastName,
+          get fullName() {
+              return this.firstName + " " + this.lastName
+          },
+          setFirstName(firstName) {
+              this.firstName = firstName
+          }
+      }, {
+          setFirstName: action
+      });
+  }
+  
+  var matthew = new Person("Matthew", "Henry");
+  
+  // 向 observable 对象添加 observable 属性
+  extendObservable(matthew, {
+      age: 353
+  });
+  
+  ```
+  注意: `observable.object(object)` 实际上是 `extendObservable({}, object)` 的别名。
+  
+  注意: 类似于 `extendObservable`，`decorate` 用来为对象引入` observable `属性。不同之处在于` extendObservable `被设计为直接在目标实例上引入属性，其中 `decorate `将它们引入原型; 可以直接将它传递给构造函数 (类)，也可以将其作为其他人的原型。
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+'''
+tags: []
+isStarred: false
+isTrashed: false

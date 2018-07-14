@@ -1,0 +1,18 @@
+createdAt: "2018-07-13T09:07:37.512Z"
+updatedAt: "2018-07-13T09:27:57.507Z"
+type: "MARKDOWN_NOTE"
+folder: "0c44d96a30437928a3be"
+title: "问题"
+content: '''
+  问题
+  1. 如何划分组件，掌握怎样的粒度？
+  
+  * [GitHub - mobxjs/awesome-mobx: A collection of awesome things regarding MobX.](https://github.com/mobxjs/awesome-mobx)
+  * [GitHub - enaqx/awesome-react: A collection of awesome things regarding React ecosystem.](https://github.com/enaqx/awesome-react)
+  * [GitHub - Pines-Cheng/awesome-react-cn: react中文资料、资源、库、文档等，正在翻译中。。。](https://github.com/Pines-Cheng/awesome-react-cn)
+  * [GitHub - brillout/awesome-react-components: Catalog of React Components & Libraries](https://github.com/brillout/awesome-react-components)
+  
+'''
+tags: []
+isStarred: false
+isTrashed: false

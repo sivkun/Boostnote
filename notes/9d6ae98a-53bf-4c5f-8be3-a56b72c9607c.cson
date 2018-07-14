@@ -1,0 +1,38 @@
+createdAt: "2018-07-13T07:19:53.737Z"
+updatedAt: "2018-07-13T07:29:45.450Z"
+type: "MARKDOWN_NOTE"
+folder: "f96465d8bf819a5d8997"
+title: "操作指南"
+content: '''
+  操作指南
+  1. 任务
+  - [x] dd
+    - [ ] - [x] [Webpack](https://webpack.github.io) 4
+  - [x] aa
+  2.链接
+    [Typescript](https://www.typescriptlang.org/) 
+  3. 图片
+  ![flow.png](http://pbmogtn5t.bkt.clouddn.com/flow.png)
+  4. 数字list
+  5. 项目符号s
+    *
+  6. **加粗**
+  7. *斜体*
+  8. # 一级标题
+     ## 二级标题
+     ### 三级标题
+  9. 表格
+  |    1  |  2    |  3    |
+  | ---- | ---- | ---- |
+  |    a  |   a   |   a   |
+  |   b   |    b  |    b  |
+  |   c   |   c   |    c  |
+  10. 代码
+  ```js
+  let a = 0;
+  ```
+  `let a = 1`
+'''
+tags: []
+isStarred: false
+isTrashed: false

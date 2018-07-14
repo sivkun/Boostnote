@@ -1,0 +1,20 @@
+createdAt: "2018-07-07T15:05:24.989Z"
+updatedAt: "2018-07-08T07:20:28.767Z"
+type: "MARKDOWN_NOTE"
+folder: "27c3d9e5fee025b160be"
+title: "Readme.md"
+content: '''
+  # Readme.md
+  
+  Boostnote被称为程序员的记事本。开始尝试使用。
+  
+  >不涉及公司信息，学习内容上传GitHub。
+  
+  测试图片:
+  ![If-Modified-Since](http://img2.imgtn.bdimg.com/it/u=3781379067,2434253217&fm=27&gp=0.jpg)
+'''
+tags: [
+  "readme"
+]
+isStarred: false
+isTrashed: false

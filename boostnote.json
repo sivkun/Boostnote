@@ -4,6 +4,46 @@
       "key": "27c3d9e5fee025b160be",
       "color": "#1278BD",
       "name": "Default"
+    },
+    {
+      "key": "8ffd700bc65008b8af40",
+      "color": "#E10051",
+      "name": "mobx"
+    },
+    {
+      "key": "7b2acd4d9bbcda0be026",
+      "color": "#FF8E00",
+      "name": "Git"
+    },
+    {
+      "key": "ceaef6c633bb2459916d",
+      "color": "#E8D252",
+      "name": "TypeScript"
+    },
+    {
+      "key": "b4bf337c6c500d896748",
+      "color": "#3FD941",
+      "name": "Webpack"
+    },
+    {
+      "key": "5c7c0037a59c1c4298a3",
+      "color": "#30D5C8",
+      "name": "Graphql"
+    },
+    {
+      "key": "baaec5048cb0144c6e19",
+      "color": "#E8D252",
+      "name": "shell"
+    },
+    {
+      "key": "f96465d8bf819a5d8997",
+      "color": "#FF8E00",
+      "name": "markdown"
+    },
+    {
+      "key": "0c44d96a30437928a3be",
+      "color": "#3FD941",
+      "name": "React"
     }
   ],
   "version": "1.0"

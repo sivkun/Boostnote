@@ -1,0 +1,28 @@
+createdAt: "2018-07-09T07:01:29.433Z"
+updatedAt: "2018-07-13T07:19:34.918Z"
+type: "MARKDOWN_NOTE"
+folder: "ceaef6c633bb2459916d"
+title: "类型别名——type"
+content: '''
+  # 类型别名——type
+  类型别名会给一个类型起个新名字。 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
+  
+  ```js
+  type Name = string;
+  type NameResolver = () => string;
+  type NameOrResolver = Name | NameResolver;
+  function getName(n: NameOrResolver): Name {
+      if (typeof n === 'string') {
+          return n;
+      }
+      else {
+          return n();
+      }
+  }
+  ```
+  
+  
+'''
+tags: []
+isStarred: false
+isTrashed: false

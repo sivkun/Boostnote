@@ -1,0 +1,22 @@
+createdAt: "2018-07-09T08:14:44.765Z"
+updatedAt: "2018-07-09T09:40:33.445Z"
+type: "MARKDOWN_NOTE"
+folder: "ceaef6c633bb2459916d"
+title: "类型断言（type assertion）"
+content: '''
+  # 类型断言（type assertion）
+  类型断言可以手动指定一个值得类型。
+  ```js
+  function getLength(something: string | number): number {
+      if ((<string>something).length) {
+          return (<string>something).length;
+      } else {
+          return something.toString().length;
+      }
+  }
+  ```
+  使用类型断言，将 something 断言成 string：
+'''
+tags: []
+isStarred: false
+isTrashed: false

@@ -1,0 +1,16 @@
+createdAt: "2018-07-11T16:32:52.688Z"
+updatedAt: "2018-07-11T16:34:08.953Z"
+type: "MARKDOWN_NOTE"
+folder: "baaec5048cb0144c6e19"
+title: "chsh"
+content: '''
+  # chsh
+  切换shell环境
+  ```sh
+  chsh -s /bin/bash
+  chsh -s /bin/zsh
+  ```
+'''
+tags: []
+isStarred: false
+isTrashed: false

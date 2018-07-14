@@ -1,0 +1,124 @@
+createdAt: "2018-07-09T07:57:33.988Z"
+updatedAt: "2018-07-09T08:36:26.465Z"
+type: "MARKDOWN_NOTE"
+folder: "ceaef6c633bb2459916d"
+title: "泛型"
+content: '''
+  # 泛型
+  > 个人理解：泛型这种类型得目的是为了使参数不局限于一种类型。使得组件、方法、函数等更具有普适性、可重用性。
+  ## 单个参数
+  ```js
+  function createArray<T>(length: number, value: T): Array<T> {
+      let result: T[] = [];
+      for (let i = 0; i < length; i++) {
+          result[i] = value;
+      }
+      return result;
+  }
+  
+  createArray<string>(3, 'x'); // ['x', 'x', 'x']
+  ```
+  上例中，我们在函数名后添加了`<T>`，其中 T 用来指代任意输入的类型，在后面的输入 `value: T `和输出 `Array<T>` 中即可使用了。
+  
+  接着在调用的时候，可以指定它具体的类型为 `string`。当然，也可以不手动指定，而让类型推论自动推算出来
+  ## 多个参数
+  ```js
+  function swap<T, U>(tuple: [T, U]): [U, T] {
+      return [tuple[1], tuple[0]];
+  }
+  
+  swap([7, 'seven']); // ['seven', 7]
+  ```
+  
+  ## 泛型约束
+  
+  ```js
+  interface Lengthwise {
+      length: number;
+  }
+  
+  function loggingIdentity<T extends Lengthwise>(arg: T): T {
+      console.log(arg.length);
+      return arg;
+  }
+  
+  loggingIdentity(7);
+  
+  // index.ts(10,17): error TS2345: Argument of type '7' is not assignable to parameter of type 'Lengthwise'.
+  
+  
+  function copyFields<T extends U, U>(target: T, source: U): T {
+      for (let id in source) {
+          target[id] = (<T>source)[id];
+      }
+      return target;
+  }
+  
+  let x = { a: 1, b: 2, c: 3, d: 4 };
+  
+  copyFields(x, { b: 10, d: 20 });
+  ```
+  
+  ## 泛型接口
+  
+  ```js
+  
+  interface CreateArrayFunc {
+      <T>(length: number, value: T): Array<T>;
+  }
+  
+  let createArray: CreateArrayFunc;
+  createArray = function<T>(length: number, value: T): Array<T> {
+      let result: T[] = [];
+      for (let i = 0; i < length; i++) {
+          result[i] = value;
+      }
+      return result;
+  }
+  
+  createArray(3, 'x'); // ['x', 'x', 'x']
+  // 进一步将<T>提前到接口名字后
+  interface CreateArrayFunc<T> {
+      (length: number, value: T): Array<T>;
+  }
+  
+  let createArray: CreateArrayFunc<any>;
+  createArray = function<T>(length: number, value: T): Array<T> {
+      let result: T[] = [];
+      for (let i = 0; i < length; i++) {
+          result[i] = value;
+      }
+      return result;
+  }
+  
+  createArray(3, 'x'); // ['x', 'x', 'x']
+  ```
+  ## 泛型类
+  
+  ```js
+  class GenericNumber<T> {
+      zeroValue: T;
+      add: (x: T, y: T) => T;
+  }
+  
+  let myGenericNumber = new GenericNumber<number>();
+  myGenericNumber.zeroValue = 0;
+  myGenericNumber.add = function(x, y) { return x + y; };
+  ```
+  ## 泛型参数默认类型
+  ```js
+  function createArray<T = string>(length: number, value: T): Array<T> {
+      let result: T[] = [];
+      for (let i = 0; i < length; i++) {
+          result[i] = value;
+      }
+      return result;
+  }
+  ``
+'''
+tags: [
+  "ts"
+  "泛型"
+]
+isStarred: false
+isTrashed: false
