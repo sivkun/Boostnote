@@ -1,5 +1,5 @@
 createdAt: "2018-07-09T08:14:44.765Z"
-updatedAt: "2018-07-09T09:40:33.445Z"
+updatedAt: "2018-07-15T13:37:30.152Z"
 type: "MARKDOWN_NOTE"
 folder: "ceaef6c633bb2459916d"
 title: "类型断言（type assertion）"
@@ -15,7 +15,13 @@ content: '''
       }
   }
   ```
-  使用类型断言，将 something 断言成 string：
+  使用类型断言，将 something 断言成 string。
+  语法：
+  ```ts
+  1. <类型>值
+  2. 值 as 类型 // jsx（react）中必须使用这一个
+  ```
+  
 '''
 tags: []
 isStarred: false

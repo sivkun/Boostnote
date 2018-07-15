@@ -1,12 +1,19 @@
 createdAt: "2018-07-13T09:27:34.423Z"
-updatedAt: "2018-07-13T09:27:49.634Z"
+updatedAt: "2018-07-14T13:23:42.906Z"
 type: "MARKDOWN_NOTE"
 folder: "0c44d96a30437928a3be"
 title: "awesome系列"
 content: '''
   # awesome系列
+  * [GitHub - mobxjs/awesome-mobx: A collection of awesome things regarding MobX.](https://github.com/mobxjs/awesome-mobx)
+  * [GitHub - enaqx/awesome-react: A collection of awesome things regarding React ecosystem.](https://github.com/enaqx/awesome-react)
+  * [GitHub - Pines-Cheng/awesome-react-cn: react中文资料、资源、库、文档等，正在翻译中。。。](https://github.com/Pines-Cheng/awesome-react-cn)
+  * [GitHub - brillout/awesome-react-components: Catalog of React Components & Libraries](https://github.com/brillout/awesome-react-components)
+  * https://github.com/sindresorhus/awesome
   
 '''
-tags: []
+tags: [
+  "awesome"
+]
 isStarred: false
 isTrashed: false

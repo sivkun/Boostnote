@@ -1,0 +1,21 @@
+createdAt: "2018-07-15T13:38:39.712Z"
+updatedAt: "2018-07-15T13:41:09.295Z"
+type: "MARKDOWN_NOTE"
+folder: "ceaef6c633bb2459916d"
+title: "tslint"
+content: '''
+  # tslint
+  1.  不检测下一行
+  ```ts
+  // tslint:disable-next-line`
+  console.log(List);
+  // tslint:disable-next-line:no-any
+    (HOC as any).displayName = recompose.wrapDisplayName(Component, 'hoc')
+  ```
+   
+'''
+tags: [
+  "tslint"
+]
+isStarred: false
+isTrashed: false

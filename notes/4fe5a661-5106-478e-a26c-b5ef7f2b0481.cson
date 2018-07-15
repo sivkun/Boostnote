@@ -1,0 +1,38 @@
+createdAt: "2018-07-14T13:35:34.078Z"
+updatedAt: "2018-07-14T14:47:00.980Z"
+type: "MARKDOWN_NOTE"
+folder: "78e3541284b00a2f5051"
+title: "简单介绍"
+content: '''
+  # 简单介绍
+  # shadowsocks——SS
+  1. [Shadowsocks - A secure socks5 proxy](http://shadowsocks.org/en/index.html)
+  2. [shadowsocks · GitHub](https://github.com/shadowsocks)
+  3. 免费server配置，见ss分享：[iShadow](https://my.ishadowx.net/)
+  4. SS服务购买：[客戶系統 - Shadowsocks.com Portal](https://portal.shadowsocks.to/index.php)
+  
+  # XX-NET
+  1. [GitHub - XX-net/XX-Net: a web proxy tool](https://github.com/XX-net/XX-Net)
+  目前我在使用XX-NET
+  优点：完全免费
+  缺点：偶尔不稳定。
+  具体配置见链接。
+  ## mac开启IPv6
+  teredo
+  下载安装miredo https://github.com/darconeous/miredo-osx
+  下载安装tuntaposx： https://sourceforge.net/projects/tuntaposx/
+  
+  注： 很多反馈Mac10.13 安装不了，是系统保护，关闭就好了：
+  command+R
+  csrutil disable
+  reboot
+  重新安装
+  相关讨论：
+  https://github.com/XX-net/XX-Net/issues/8045
+  https://github.com/XX-net/XX-Net/issues/8425
+  
+  
+'''
+tags: []
+isStarred: false
+isTrashed: false

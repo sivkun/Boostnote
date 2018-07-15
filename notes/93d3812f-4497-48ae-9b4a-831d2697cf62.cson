@@ -1,5 +1,5 @@
 createdAt: "2018-07-13T10:48:10.920Z"
-updatedAt: "2018-07-13T10:58:27.217Z"
+updatedAt: "2018-07-14T03:33:19.876Z"
 type: "MARKDOWN_NOTE"
 folder: "0c44d96a30437928a3be"
 title: "react-ts"
@@ -15,6 +15,8 @@ content: '''
   ```
   3. Partial 映射 部分参数
   `(data: Partial<TodoModel>) => {}`
+  
+  
 '''
 tags: [
   "react"

@@ -1,0 +1,14 @@
+createdAt: "2018-07-15T13:45:10.177Z"
+updatedAt: "2018-07-15T13:46:01.200Z"
+type: "MARKDOWN_NOTE"
+folder: "0c44d96a30437928a3be"
+title: "recompose"
+content: '''
+  # recompose
+  [GitHub - acdlite/recompose: A React utility belt for function components and higher-order components.](https://github.com/acdlite/recompose)
+'''
+tags: [
+  "recompose"
+]
+isStarred: false
+isTrashed: false

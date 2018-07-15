@@ -44,6 +44,16 @@
       "key": "0c44d96a30437928a3be",
       "color": "#3FD941",
       "name": "React"
+    },
+    {
+      "key": "78e3541284b00a2f5051",
+      "color": "#2BA5F7",
+      "name": "科学上网"
+    },
+    {
+      "key": "6565a836d9075e7dcb44",
+      "color": "#2BA5F7",
+      "name": "IDE"
     }
   ],
   "version": "1.0"
